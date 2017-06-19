@@ -12,5 +12,4 @@ There are 2 R files and 2 text files corresponding to tutorial and application s
   "Block1.Rdata" contains the behavorial data associated with the first run of the fMRI experiment
   "standardizedBOLD.Rdata" contains the neural data associated with the frist run of the fMRI (already processed)
   "posterior_samples.Rdata" contains the posterior samples from the three models used in the experimental example. These are the posterior estimates used in the analyses in the paper
-  
-  
+ 
