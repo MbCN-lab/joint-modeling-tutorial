@@ -1,0 +1,32 @@
+model {
+    # convert sig to tau for convenience
+    tau <- pow(sig, -2)
+    
+    # loop through trials to define likelihood
+    for (i in 1:n){
+        for (t in 1:Nt){
+	       for(k in 1:Nroi){
+            # likelihood for neural data
+            N[i,t,k] ~ dnorm(Delta[i,k]*ts[t],tau);
+            }
+	    }
+        theta[i] <- Delta[i,]%*%beta;
+        # likelihood for behavioral data
+        B[i] ~ dbin(1/(1+exp(-theta[i])),1);
+    }
+    
+    # loop through trials to define prior on (delta, theta)
+    for(i in 1:n){
+        Delta[i,1:Nroi] ~ dmnorm(phi,Omega);
+    }
+    
+    # priors on hyperparameters
+    phi ~ dmnorm(phi0,s0);
+    Omega ~ dwish(I0, n0);
+    # convert Omega to Sigma for convenience
+    Sigma <- inverse(Omega);
+    # prior on regression parameters
+    for(k in 1:Nroi){
+        beta[k] ~ dnorm(0,.001)
+    }
+}
